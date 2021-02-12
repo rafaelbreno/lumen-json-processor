@@ -1,6 +1,13 @@
+## Package Manager
 /vendor
+/node_modules
+
+## Editor files
 /.idea
+
+## Generated/Cache/Temporary
 Homestead.json
 Homestead.yaml
 .env
 .phpunit.result.cache
+/db

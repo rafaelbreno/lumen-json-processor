@@ -24,9 +24,9 @@ class CreateLogsTable extends Migration
             // authenticated_entities
             $table->foreignId('entity_id');
             // route
-            $table->foreignId('route_id');
+            $table->foreignUuid('route_id');
             // service
-            $table->foreignId('service_id');
+            $table->foreignUuid('service_id');
             // latency
             $table->foreignId('latency_id');
             // client_ip

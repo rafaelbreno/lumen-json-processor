@@ -1,5 +1,11 @@
 ## Test Melhor Envio
 
+## Observations
+- Yep! I'm using _Laravel Lumen_ instead of _"Laravel Laravel"_
+    - I didn't felt the need to have all of Laravel's components
+    - This project looks more like a _microservice_ than a "complete" app
+
+
 ### How to locally deploy
 - > $ git clone https://github.com/rafaelbreno/lumen-json-processor.git
 - > $ cd lumen-json-processor
@@ -17,3 +23,12 @@
     - `$ php artisan serve`
     - Configure your databases
 
+## Migrations/Models
+- [x] `logs`
+- [x] `requests`
+- [x] `headers`
+- [x] `responses`
+- [x] `entities`
+- [x] `routes`
+- [x] `servicies`
+- [x] `latencies`

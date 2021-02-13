@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
  */
 trait SetUuid
 {
+    use SetupUuid;
     /**
      *
      */
@@ -22,21 +23,5 @@ trait SetUuid
                 $model->{$model->getKeyName()} = (string)Str::uuid();
             }
         });
-    }
-
-    /**
-     * @return bool
-     */
-    public function getIncrementing(): bool
-    {
-        return false;
-    }
-
-    /**
-     * @return string
-     */
-    public function getKeyType(): string
-    {
-        return 'string';
     }
 }

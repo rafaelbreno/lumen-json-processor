@@ -32,7 +32,7 @@ class CreateLogsTable extends Migration
             // client_ip
             $table->ipAddress('client_ip');
             // started_at
-            $table->dateTime('started_at');
+            $table->timestamp('started_at');
             $table->timestamps();
         });
     }

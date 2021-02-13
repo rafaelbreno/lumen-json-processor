@@ -172,7 +172,8 @@ class LogRepository implements LogRepositoryInterface
                 'required', 'string'
             ],
             'response.headers.access-control-allow-credentials' => [
-                'required', 'boolean'
+                'required',
+                Rule::in('true', 'false' , true, false, 1, 0)
             ],
             'response.headers.Content-Type' => [
                 'required', 'string'

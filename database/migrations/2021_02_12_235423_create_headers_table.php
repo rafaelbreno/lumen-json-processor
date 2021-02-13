@@ -15,21 +15,24 @@ class CreateHeadersTable extends Migration
     {
         Schema::create('headers', function (Blueprint $table) {
             $table->uuid('id');
-            /*
-                  "Content-Length": "197",
-                  "via": "gateway/0.3.0",
-                  "Connection": "close",
-                  "access-control-allow-credentials": "true",
-                  "Content-Type": "application/json",
-                  "server": "nginx",
-                  "accept": "*\/*",
-                  "host": "httpbin.org",
-                  "user-agent": "curl/7.37.1"
+
+            /**
+             *  "Content-Length": "197",
+             *  "via": "gateway/0.3.0",
+             *  "Connection": "close",
+             *  "access-control-allow-credentials": "true",
+             *  "Content-Type": "application/json",
+             *  "server": "nginx",
+             *  "access-control-allow-origin": "*"
+             *  "accept": "*\/*",
+             *  "host": "httpbin.org",
+             *  "user-agent": "curl/7.37.1"
              * */
             $table->unsignedInteger('content_length');
             $table->string('via');
             $table->string('connection');
             $table->boolean('access_control_allow_credentials');
+            $table->string('access_control_allow_origin');
             $table->string('content_type');
             $table->string('server');
             $table->string('accept');

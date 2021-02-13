@@ -24,7 +24,8 @@ class Header extends Model
      * @var array
      */
     protected $fillable = [
-        'content_length', 'via', 'connection', 'access_control_allow_credentials',
+        'content_length', 'via', 'connection',
+        'access_control_allow_credentials','access_control_allow_origin',
         'content_type', 'server', 'accept', 'host', 'user_agent',
     ];
 }

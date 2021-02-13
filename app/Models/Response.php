@@ -5,6 +5,7 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Response extends Model
 {
@@ -30,4 +31,9 @@ class Response extends Model
     protected $casts = [
         'querystring' => 'array'
     ];
+
+    public function header(): HasOne
+    {
+        return $this->hasOne(Header::class, 'header_id', 'id');
+    }
 }

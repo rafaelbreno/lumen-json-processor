@@ -22,8 +22,12 @@ class Request extends Model
      * @var array
      */
     protected $fillable = [
-        'method', 'uri', 'url', 'size',
+        'method', 'uri', 'url', 'size', 'querystring',
 
         'header_id',
+    ];
+
+    protected $casts = [
+        'querystring' => 'array'
     ];
 }

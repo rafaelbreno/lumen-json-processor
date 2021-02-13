@@ -21,6 +21,7 @@ class CreateRequestsTable extends Migration
             $table->unsignedInteger('size');
             // UUID because this table will store both 'request' and 'response' headers
             $table->foreignUuid('header_id');
+            $table->text('querystring');
             $table->timestamps();
         });
     }

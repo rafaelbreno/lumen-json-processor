@@ -29,5 +29,7 @@ $router->group([
         'prefix' => '/log'
     ], function () use ($router) {
         $router->post('/create', 'LogController@create');
+
+        $router->post('/import', 'ImportFileController@import');
     });
 });

@@ -44,7 +44,7 @@ class CreateRoutesTable extends Migration
         },
          * */
         Schema::create('routes', function (Blueprint $table) {
-            $table->uuid('id')->unique();
+            $table->uuid('id')->unique()->primary();
             $table->string('hosts');
             $table->text('methods');
             $table->text('paths');

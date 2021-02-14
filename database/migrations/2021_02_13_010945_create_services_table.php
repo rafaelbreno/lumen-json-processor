@@ -30,7 +30,7 @@ class CreateServicesTable extends Migration
         },
          * */
         Schema::create('services', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->unique()->primary();
             $table->unsignedInteger('connect_timeout');
             $table->string('host');
             $table->string('name');

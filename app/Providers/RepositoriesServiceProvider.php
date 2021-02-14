@@ -4,7 +4,9 @@
 namespace App\Providers;
 
 
+use App\Interfaces\ImportFileRepositoryInterface;
 use App\Interfaces\LogRepositoryInterface;
+use App\Repositories\ImportFileRepository;
 use App\Repositories\LogRepository;
 
 class RepositoriesServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -29,6 +31,11 @@ class RepositoriesServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->bind(
             LogRepositoryInterface::class,
             LogRepository::class
+        );
+
+        $this->app->bind(
+            ImportFileRepositoryInterface::class,
+            ImportFileRepository::class
         );
     }
 }

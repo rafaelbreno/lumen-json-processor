@@ -35,4 +35,46 @@ class Route extends Model
         'methods' => 'array',
         'paths' => 'array',
     ];
+
+    static public function validationRules(): array
+    {
+        return [
+            'route' => [
+                'required', 'array'
+            ],
+            'route.hosts' => [
+                'required', 'string'
+            ],
+            'route.id' => [
+                'required', 'uuid'
+            ],
+            'route.methods' => [
+                'required', 'array'
+            ],
+            'route.paths' => [
+                'required', 'array'
+            ],
+            'route.preserve_host' => [
+                'required', 'boolean'
+            ],
+            'route.protocols' => [
+                'required', 'array'
+            ],
+            'route.regex_priority' => [
+                'required', 'integer'
+            ],
+            'route.service.id' => [
+                'required', 'uuid'
+            ],
+            'route.strip_path' => [
+                'required', 'boolean'
+            ],
+            'route.created_at' => [
+                'required', 'integer'
+            ],
+            'route.updated_at' => [
+                'required', 'integer'
+            ],
+        ];
+    }
 }

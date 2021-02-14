@@ -23,4 +23,22 @@ class Latency extends Model
     protected $fillable = [
         'proxy', 'gateway', 'request',
     ];
+
+    static public function validationRules(): array
+    {
+        return [
+            'latencies' => [
+                'required', 'array'
+            ],
+            'latencies.proxy' => [
+                'required', 'integer'
+            ],
+            'latencies.gateway' => [
+                'required', 'integer'
+            ],
+            'latencies.request' => [
+                'required', 'integer'
+            ]
+        ];
+    }
 }

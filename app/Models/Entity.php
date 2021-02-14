@@ -23,4 +23,16 @@ class Entity extends Model
     protected $fillable = [
         'consumer_id'
     ];
+
+    static public function validationRules(): array
+    {
+        return [
+            'authenticated_entity' => [
+                'required', 'array'
+            ],
+            'authenticated_entity.consumer_id.uuid' => [
+                'required', 'uuid'
+            ],
+        ];
+    }
 }

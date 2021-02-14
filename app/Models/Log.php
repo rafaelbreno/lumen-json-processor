@@ -59,4 +59,19 @@ class Log extends Model
     {
         return $this->hasOne(Request::class, 'request_id', 'id');
     }
+
+    static public function validationRules(): array
+    {
+        return [
+            "upstream_uri" => [
+                'required', 'string'
+            ],
+            "client_ip" => [
+                'required' => 'ip'
+            ],
+            "started_at" => [
+                'required' => 'int'
+            ]
+        ];
+    }
 }

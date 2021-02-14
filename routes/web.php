@@ -1,6 +1,8 @@
 <?php
 
-/** @var \Laravel\Lumen\Routing\Router $router */
+use Laravel\Lumen\Routing\Router;
+
+/** @var Router $router */
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +17,17 @@
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
+});
+
+// example.com/api
+$router->group([
+    'prefix' => '/api'
+], function () use ($router) {
+
+    // example.com/api/log
+    $router->group([
+        'prefix' => '/log'
+    ], function () use ($router) {
+        $router->post('/create', 'LogController@create');
+    });
 });

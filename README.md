@@ -139,3 +139,18 @@
             "id": 1
         }
       ```
+### `/api/log/create/file`
+- Insert log registration via file upload
+- Only accepts 1 file
+- Request:
+    - FormData with _'file'_ field
+- Response:
+    - ```json
+        {
+            "filename": "2021/02/d38c15ad-0dfe-4c7d-87c6-9af20ffb9fc5.txt",
+            "status": 0,
+            "updated_at": "2021-02-14T21:43:13.000000Z",
+            "created_at": "2021-02-14T21:43:13.000000Z",
+            "id": 5
+        }
+      ```

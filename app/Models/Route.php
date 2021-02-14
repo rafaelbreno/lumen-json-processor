@@ -4,10 +4,13 @@
 namespace App\Models;
 
 
+use App\Traits\SetupUuid;
 use Illuminate\Database\Eloquent\Model;
 
 class Route extends Model
 {
+    use SetupUuid;
+
     /**
      * The table associated with the model.
      *

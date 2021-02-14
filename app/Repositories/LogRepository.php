@@ -16,7 +16,6 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 /**
  * Class LogRepository
@@ -205,7 +204,7 @@ class LogRepository implements LogRepositoryInterface
     }
 
     /**
-     * Mount rule for JSON paylaod
+     * Mount rule for JSON payload
      *
      * @return array
      */

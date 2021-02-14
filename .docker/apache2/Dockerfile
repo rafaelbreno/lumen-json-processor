@@ -25,7 +25,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install mysqli \
     && docker-php-ext-install zip \
-    && docker-php-source delete
+    && docker-php-source delete \
+    && pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis
 
 COPY .docker/apache2/vhost.conf /etc/apache2/sites-available/000-default.conf
 

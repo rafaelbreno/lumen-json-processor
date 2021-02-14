@@ -95,7 +95,7 @@ class LogRepository implements LogRepositoryInterface
 
         $log = Log::create($logData);
 
-        $this->setResponse($logData, 200);
+        $this->setResponse($log->toArray(), 200);
     }
 
     private function createRequest(): int
@@ -139,7 +139,9 @@ class LogRepository implements LogRepositoryInterface
     private function createRoute(): string
     {
         $data = $this->getRouteData();
+
         $route = Route::firstOrCreate(['id' => $data['id']], $data);
+
         return $route->id;
     }
 

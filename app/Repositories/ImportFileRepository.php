@@ -124,6 +124,7 @@ class ImportFileRepository implements ImportFileRepositoryInterface
      */
     private function setFileName(): string
     {
+        // 2021/02/d38c15ad-0dfe-4c7d-87c6-9af20ffb9fc5.txt"
         return date('Y/m')
             . '/'
             . Str::uuid()->toString()

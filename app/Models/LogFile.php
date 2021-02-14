@@ -7,7 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class LogFiles extends Model
+class LogFile extends Model
 {
     /**
      * The table associated with the model.
@@ -33,5 +33,14 @@ class LogFiles extends Model
     public function importErrors(): HasMany
     {
         return $this->hasMany(ImportErrors::class, 'log_file_id', 'id');
+    }
+
+    static public function validationRules(): array
+    {
+        return [
+            'file' => [
+                'required', 'file', 'mimes:txt'
+            ]
+        ];
     }
 }

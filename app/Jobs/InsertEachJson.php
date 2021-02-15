@@ -36,6 +36,8 @@ class InsertEachJson extends Job
      */
     private $file;
 
+    private bool $have_error = false;
+
     /**
      * Create a new job instance.
      *
@@ -95,7 +97,11 @@ class InsertEachJson extends Job
 
         fclose($this->file);
 
-        $this->logFileUpdate();
+        $this->logFileUpdate(
+            ($this->have_error)
+                ? LogFile::FOUND_ERRORS // Finished with Errors
+                : LogFile::FINISHED // Finished without errors
+        );
     }
 
     private function parseLine($line): void
@@ -105,6 +111,7 @@ class InsertEachJson extends Job
         $errors = (new LogRepository($logData))->createAndGetError();
 
         if ($errors == []) {
+
             $this->setError($errors, 0);
         }
     }
@@ -114,10 +121,17 @@ class InsertEachJson extends Job
         $this->logFile = LogFile::where('status', 0)
             ->orderBy('created_at', 'ASC')
             ->first();
+
+        // Updating to Processing
+        $this->logFileUpdate(LogFile::PROCESSING);
     }
 
     private function setError(array $error, int $type): void
     {
+        if (!$this->have_error) {
+            $this->have_error = true;
+        }
+
         ImportErrors::create([
             'error' => serialize($error),
             'type' => $type,
@@ -125,10 +139,10 @@ class InsertEachJson extends Job
         ]);
     }
 
-    private function logFileUpdate(): void
+    private function logFileUpdate(int $status): void
     {
         $this->logFile->update([
-            'status' => -1
+            'status' => $status
         ]);
     }
 }

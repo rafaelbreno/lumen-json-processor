@@ -11,3 +11,4 @@ Homestead.yaml
 .env
 .phpunit.result.cache
 /db
+_ide_helper.php

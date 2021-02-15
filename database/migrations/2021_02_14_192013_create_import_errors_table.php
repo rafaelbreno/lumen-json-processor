@@ -24,6 +24,7 @@ class CreateImportErrorsTable extends Migration
             /*
              * 0 - Parsing Error
              * 1 - Validation Error
+             * 2 - File not found
              * */
             $table->tinyInteger('type');
             $table->timestamps();

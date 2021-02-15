@@ -6,8 +6,7 @@ namespace App\Jobs;
 
 use App\Models\ImportErrors;
 use App\Models\LogFile;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Support\Facades\Storage;
+use Exception;
 
 /**
  * Class InsertEachJson
@@ -15,7 +14,6 @@ use Illuminate\Support\Facades\Storage;
  */
 class InsertEachJson extends Job
 {
-
     /**
      * Max asynchronous jobs
      *
@@ -32,6 +30,10 @@ class InsertEachJson extends Job
 
 
     private LogFile $logFile;
+    /**
+     * @var false|resource
+     */
+    private $file;
 
     /**
      * Create a new job instance.
@@ -45,6 +47,11 @@ class InsertEachJson extends Job
             ->count();
     }
 
+    public function __destruct()
+    {
+        $this->file = null;
+    }
+
     /**
      * Execute the job.
      *
@@ -52,7 +59,7 @@ class InsertEachJson extends Job
      */
     public function handle()
     {
-        if (! $this->inProcess < $this->max) {
+        if ($this->inProcess < $this->max) {
             $this->proceed();
         }
     }
@@ -61,19 +68,36 @@ class InsertEachJson extends Job
     {
         $this->setLogFile();
 
+        $this->readFile();
+    }
+
+    private function readFile(): void
+    {
         try {
-            $fileContent = Storage::disk('local')->exists($this->logFile['filename']);
-            $this->parseFile($fileContent);
-        } catch (FileNotFoundException $e) {
+            $this->file = fopen(storage_path("app/" . $this->logFile['filename']), 'r');
+        } catch (Exception $e) {
             $this->setError([
                 'message' => $e->getMessage()
             ], 2);
+            return;
         }
+
+        $this->readLines();
     }
 
-    public function parseFile(string $content): void
+    // Todo: implement
+    private function readLines(): void
     {
+        while (($line = fgets($this->file)) !== false) {
+            $this->parseLine($line);
+        }
 
+        fclose($this->file);
+    }
+
+    private function parseLine($line): void
+    {
+        $logData = (json_decode($line, true));
     }
 
     private function setLogFile(): void

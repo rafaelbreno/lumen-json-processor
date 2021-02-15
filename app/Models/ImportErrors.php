@@ -13,7 +13,7 @@ class ImportErrors extends Model
      *
      * @var string
      */
-    protected $table = 'log_files';
+    protected $table = 'import_errors';
 
 
     /**

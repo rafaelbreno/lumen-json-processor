@@ -42,7 +42,6 @@ class LogRepository implements LogRepositoryInterface
      */
     public function create(Request $request): JsonResponse
     {
-        $this->request = $request;
         $this->requestArray = $request->toArray();
 
         $this->parseSinglePayload();
@@ -80,8 +79,8 @@ class LogRepository implements LogRepositoryInterface
     private function createLog(): void
     {
         $logData = [
-            'upstream_uri' => $this->request['upstream_uri'],
-            'client_ip' => $this->request['client_ip'],
+            'upstream_uri' => $this->requestArray['upstream_uri'],
+            'client_ip' => $this->requestArray['client_ip'],
             'started_at' => Carbon::createFromTimestamp($this->requestArray['started_at'])->format('Y-m-d H:i:s'),
 
             'request_id' => $this->createRequest(),

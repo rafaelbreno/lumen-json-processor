@@ -9,6 +9,20 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LogFile extends Model
 {
+    /* Status
+     * -1 Found Errors
+     * 0 - Not Processed
+     * 1 - Processing
+     * 2 - Finished Processing
+     * */
+
+    const FOUND_ERRORS = -1,
+          NOT_PROCESSED = 0,
+          PROCESSING = 1,
+          FINISHED = 2;
+
+
+
     /**
      * The table associated with the model.
      *

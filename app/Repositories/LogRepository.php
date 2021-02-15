@@ -33,6 +33,12 @@ class LogRepository implements LogRepositoryInterface
      */
     private JsonResponse $response;
     private array $requestArray;
+    private array $validationErrors = [];
+
+    public function __construct(array $requestArray)
+    {
+        $this->requestArray = $requestArray;
+    }
 
     /**
      * Method to insert single log
@@ -47,6 +53,13 @@ class LogRepository implements LogRepositoryInterface
         $this->parseSinglePayload();
 
         return $this->response;
+    }
+
+    public function createAndGetError(): array
+    {
+        $this->parseSinglePayload();
+
+        return $this->validationErrors;
     }
 
     /**
@@ -70,6 +83,7 @@ class LogRepository implements LogRepositoryInterface
         // Return validation errors
         if ($validation->fails()) {
             $this->setResponse($validation->errors()->toArray(), 403);
+            $this->validationErrors = $validation->errors()->toArray();
             return;
         }
 

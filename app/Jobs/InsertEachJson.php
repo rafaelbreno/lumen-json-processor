@@ -6,6 +6,7 @@ namespace App\Jobs;
 
 use App\Models\ImportErrors;
 use App\Models\LogFile;
+use App\Repositories\LogRepository;
 use Exception;
 
 /**
@@ -93,11 +94,19 @@ class InsertEachJson extends Job
         }
 
         fclose($this->file);
+
+        $this->logFileUpdate();
     }
 
     private function parseLine($line): void
     {
         $logData = (json_decode($line, true));
+
+        $errors = (new LogRepository($logData))->createAndGetError();
+
+        if ($errors == []) {
+            $this->setError($errors, 0);
+        }
     }
 
     private function setLogFile(): void
@@ -107,12 +116,19 @@ class InsertEachJson extends Job
             ->first();
     }
 
-    private function setError(array $error, string $type): void
+    private function setError(array $error, int $type): void
     {
         ImportErrors::create([
             'error' => serialize($error),
             'type' => $type,
             'log_file_id' => $this->logFile->id
+        ]);
+    }
+
+    private function logFileUpdate(): void
+    {
+        $this->logFile->update([
+            'status' => -1
         ]);
     }
 }

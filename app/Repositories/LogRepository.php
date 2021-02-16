@@ -115,6 +115,7 @@ class LogRepository implements LogRepositoryInterface
         $requestData = $this->requestArray['request'];
 
         $requestData['header_id'] = $this->createHeader($requestData['headers']);
+        $requestData['querystring'] = serialize($requestData['querystring']);
 
         $request = \App\Models\Request::create($requestData);
 

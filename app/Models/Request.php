@@ -58,7 +58,7 @@ class Request extends Model
                 'required', 'integer'
             ],
             'request.querystring' => [
-                'required', 'string'
+                'nullable', 'array'
             ],
             'request.headers' => [
                 'required', 'array'

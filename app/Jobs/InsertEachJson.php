@@ -8,6 +8,7 @@ use App\Models\ImportErrors;
 use App\Models\LogFile;
 use App\Repositories\LogRepository;
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class InsertEachJson
@@ -69,8 +70,9 @@ class InsertEachJson extends Job
 
     private function proceed(): void
     {
-        $this->setLogFile();
-
+        if ( !$this->setLogFile() ) {
+            return;
+        }
         $this->readFile();
     }
 
@@ -81,7 +83,7 @@ class InsertEachJson extends Job
         } catch (Exception $e) {
             $this->setError([
                 'message' => $e->getMessage()
-            ], 2);
+            ], LogFile::FOUND_ERRORS);
             return;
         }
 
@@ -110,20 +112,23 @@ class InsertEachJson extends Job
 
         $errors = (new LogRepository($logData))->createAndGetError();
 
-        if ($errors == []) {
-
+        if ($errors != []) {
             $this->setError($errors, 0);
         }
     }
 
-    private function setLogFile(): void
+    private function setLogFile(): bool
     {
         $this->logFile = LogFile::where('status', 0)
             ->orderBy('created_at', 'ASC')
             ->first();
 
+        if (is_null($this->logFile)) {
+            return false;
+        }
         // Updating to Processing
         $this->logFileUpdate(LogFile::PROCESSING);
+        return true;
     }
 
     private function setError(array $error, int $type): void

@@ -13,6 +13,8 @@ RUN apt-get install -y apt-utils
 
 RUN apt-get update && apt-get install -y \
         libpng-dev \
+        nmap \
+        vim \
         zlib1g-dev \
         libxml2-dev \
         libzip-dev \
@@ -27,10 +29,13 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install zip \
     && docker-php-source delete \
     && pecl install -o -f redis \
-    &&  rm -rf /tmp/pear \
-    &&  docker-php-ext-enable redis
+    && rm -rf /tmp/pear \
+    && docker-php-ext-enable redis
 
-COPY .docker/apache2/vhost.conf /etc/apache2/sites-available/000-default.conf
+RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
+
+COPY .docker/apache2/config/vhost.conf /etc/apache2/sites-available/000-default.conf
+COPY .docker/apache2/config/uploads.ini $PHP_INI_DIR/conf.d/
 
 RUN curl -sSL https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

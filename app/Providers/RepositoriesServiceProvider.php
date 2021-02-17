@@ -8,6 +8,8 @@ use App\Interfaces\ImportFileRepositoryInterface;
 use App\Interfaces\LogRepositoryInterface;
 use App\Repositories\ImportFileRepository;
 use App\Repositories\LogRepository;
+use App\Repositories\ReportRepository;
+use App\Repositories\ReportRepositoryInterface;
 
 class RepositoriesServiceProvider extends \Illuminate\Support\ServiceProvider
 {
@@ -36,6 +38,11 @@ class RepositoriesServiceProvider extends \Illuminate\Support\ServiceProvider
         $this->app->bind(
             ImportFileRepositoryInterface::class,
             ImportFileRepository::class
+        );
+
+        $this->app->bind(
+            ReportRepositoryInterface::class,
+            ReportRepository::class
         );
     }
 }

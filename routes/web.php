@@ -33,3 +33,8 @@ $router->group([
         $router->post('/import', 'ImportFileController@import');
     });
 });
+
+
+$router->get('/request/per/consumer', 'ReportController@requestPerConsumer');
+$router->get('/request/per/service', 'ReportController@requestPerService');
+$router->get('/latency/per/service', 'ReportController@averageLatencyPerService');

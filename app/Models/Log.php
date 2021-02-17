@@ -32,32 +32,32 @@ class Log extends Model
 
     public function latency(): HasOne
     {
-        return $this->hasOne(Latency::class, 'latency_id', 'id');
+        return $this->hasOne(Latency::class, 'id', 'latency_id');
     }
 
     public function service(): HasOne
     {
-        return $this->hasOne(Service::class, 'service_id', 'id');
+        return $this->hasOne(Service::class, 'id', 'service_id');
     }
 
     public function route(): HasOne
     {
-        return $this->hasOne(Route::class, 'route_id', 'id');
+        return $this->hasOne(Route::class, 'id', 'route_id');
     }
 
     public function response(): HasOne
     {
-        return $this->hasOne(Response::class, 'response_id', 'id');
+        return $this->hasOne(Response::class, 'id', 'response_id');
     }
 
     public function entity(): HasOne
     {
-        return $this->hasOne(Entity::class, 'entity_id', 'id');
+        return $this->hasOne(Entity::class, 'id', 'entity_id');
     }
 
     public function request(): HasOne
     {
-        return $this->hasOne(Request::class, 'request_id', 'id');
+        return $this->hasOne(Request::class, 'id', 'request_id');
     }
 
     static public function validationRules(): array

@@ -2,14 +2,14 @@
 
 namespace App\Repositories;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 interface ReportRepositoryInterface
 {
-    public function requestPerConsumer(Request $request): JsonResponse;
+    public function requestPerConsumer(Request $request): StreamedResponse;
 
-    public function requestPerService(Request $request): JsonResponse;
+    public function requestPerService(Request $request): StreamedResponse;
 
-    public function averageLatencyPerService(Request $request): JsonResponse;
+    public function averageLatencyPerService(Request $request): StreamedResponse;
 }

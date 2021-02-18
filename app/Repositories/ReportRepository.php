@@ -4,21 +4,26 @@
 namespace App\Repositories;
 
 
-use Illuminate\Http\JsonResponse;
+use App\Helpers\Export;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ReportRepository implements ReportRepositoryInterface
 {
-    public function requestPerConsumer(Request $request): JsonResponse
+    private array $data;
+
+    public function requestPerConsumer(Request $request): StreamedResponse
     {
         // Raw SQL faster than Eloquent
-        $data = \DB::select("
+        $this->data = DB::select("
             SELECT
                    consumer_id,
                    COUNT(id) as quantity
             FROM entities
             GROUP BY consumer_id
         ");
+
 //        $test = Entity::all()
 //            ->groupBy('consumer_id')
 //            ->map(function ($value, $key) {
@@ -26,12 +31,15 @@ class ReportRepository implements ReportRepositoryInterface
 //            })
 //            ->toArray();
 
-        return response()->json($data);
+        return $this->streamedResponse([
+            'consumer_id' => 'consumer_id',
+            'quantity' => 'quantity',
+        ]);
     }
 
-    public function requestPerService(Request $request): JsonResponse
+    public function requestPerService(Request $request): StreamedResponse
     {
-        $data = \DB::select("
+        $this->data = DB::select("
             SELECT
                    service_id,
                    COUNT(id) as quantity
@@ -39,18 +47,15 @@ class ReportRepository implements ReportRepositoryInterface
             GROUP BY service_id
         ");
 
-//        $test = Log::all()
-//            ->groupBy('service_id')
-//            ->map(function ($value, $key) {
-//                return count($value);
-//            })
-//            ->toArray();
-        return response()->json($data);
+        return $this->streamedResponse([
+            'service_id' => 'service_id',
+            'quantity' => 'quantity',
+        ]);
     }
 
-    public function averageLatencyPerService(Request $request): JsonResponse
+    public function averageLatencyPerService(Request $request): StreamedResponse
     {
-        $data = \DB::select("
+        $this->data = DB::select("
             SELECT
                 services.id,
                 AVG(latencies.proxy) as avg_proxy,
@@ -65,6 +70,29 @@ class ReportRepository implements ReportRepositoryInterface
             GROUP BY id
         ");
 
-        return response()->json($data);
+        return $this->streamedResponse([
+            'id' => 'service_id',
+            'avg_proxy' => 'proxy',
+            'avg_gateway' => 'gateway',
+            'avg_request' => 'request',
+        ]);
+    }
+
+    private function convertToArray(array $arr): array
+    {
+        return array_map(function ($value) {
+            return (array)$value;
+        }, $arr);
+    }
+
+    private function streamedResponse(array $columns, string $name = 'foo'): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        $this->data = $this->convertToArray($this->data);
+
+        $export = (new Export($this->data, $name))
+            ->csv($columns);
+
+
+        return response()->stream($export->callback, 200, $export->headers);
     }
 }

@@ -9,19 +9,23 @@
 ### How to locally deploy
 - > $ git clone https://github.com/rafaelbreno/lumen-json-processor.git
 - > $ cd lumen-json-processor
+- > $ composer install
 - > $ cp .env.example .env
 - > $ php artisan key:generate
 - Configure `.env` file
-- > $ composer install
 
 - Then there are 2 options:
-1. Using docker
-    - run: `$ docker-compose up -d`
-    - `$ docker-compose exec app php artisan migrate `
+1. Using docker, run:
+     - > $ docker-compose up -d
+    - > $ docker-compose exec app php artisan migrate
+    - > $ docker-compose exec app php artisan schedule:run >> /dev/null 2>&1
+        - Run cron job
     - Access `localhost:8000`
 2. _"Normal"_ way
-    - `$ php artisan serve`
+    - > $ php artisan serve
     - Configure your databases
+    
+- Now to "seed" the database you can send any file from `/.static/` folder to the endpoint `/api/log/create/file`
 
 ## Migrations/Models
 - [x] `logs`
@@ -154,3 +158,35 @@
             "id": 5
         }
       ```
+
+### `/request/per/consumer`
+- Receive CSV file:
+- ```csv
+    consumer_id,quantity
+    72b34d31-4c14-3bae-9cc6-516a0939c9d6,4
+    f643db14-a82d-30c2-8c13-889db1d0fcc2,2
+    beceaa24-823b-3bf9-9ae6-c8dada26b264,2
+    7ba24e1f-ed19-31b2-a4be-4114721d63af,2
+  ```
+
+### `/request/per/service`
+- Receive CSV file:
+- ```csv
+    service_id,quantity
+    c3e86413-648a-3552-90c3-b13491ee07d6,2046
+    d035ffcf-914a-3007-b028-ae18f04d75b4,2090
+    a5bf08bd-c030-30d5-8009-83a8c30103bf,2100
+    22f8e3a6-01f7-3264-b4b5-9d178df11d06,2107
+    eb1ce287-5797-3e45-b9a6-e6d51691257e,2102
+  ```
+
+### `/latency/per/service`
+- Receive CSV file:
+- ```csv
+    service_id,proxy,gateway,request
+    c3e86413-648a-3552-90c3-b13491ee07d6,1380.0670,12.4306,1737.5225
+    d035ffcf-914a-3007-b028-ae18f04d75b4,1399.0263,12.6775,1727.6751
+    a5bf08bd-c030-30d5-8009-83a8c30103bf,1405.3490,12.4519,1747.2448
+    22f8e3a6-01f7-3264-b4b5-9d178df11d06,1405.1011,12.5093,1743.7428
+    eb1ce287-5797-3e45-b9a6-e6d51691257e,1402.8192,12.5038,1748.4291
+  ```

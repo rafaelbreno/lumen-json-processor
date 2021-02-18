@@ -119,9 +119,15 @@ class InsertEachJson extends Job
 
     private function setLogFile(): bool
     {
-        $this->logFile = LogFile::where('status', 0)
+        $logFile = LogFile::where('status', 0)
             ->orderBy('created_at', 'ASC')
             ->first();
+
+        if (is_null($logFile)) {
+            return false;
+        }
+
+        $this->logFile = $logFile;
 
         if (is_null($this->logFile)) {
             return false;

@@ -25,9 +25,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-//        $schedule
-//            ->command(DispatchJsonParser::class)
-//            ->withoutOverlapping(1)
-//            ->everyFifteenMinutes();
+        $schedule
+            ->command(DispatchJsonParser::class)
+            ->withoutOverlapping(1)
+            ->everyFifteenMinutes();
     }
 }
